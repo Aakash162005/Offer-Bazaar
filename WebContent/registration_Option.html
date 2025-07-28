@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OfferBazaar - Registration Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4CAF50; /* Trustworthy green */
+            --secondary: #FF9800; /* Action orange */
+            --accent: #2196F3; /* Information blue */
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            font-size: 42px;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .logo-highlight {
+            color: var(--primary);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            animation: slideUp 0.8s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .user-card .card-header {
+            background: linear-gradient(135deg, var(--accent), #42A5F5);
+        }
+        
+        .advertiser-card .card-header {
+            background: linear-gradient(135deg, var(--secondary), #FFA726);
+        }
+        
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .card-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card-body {
+            padding: 40px;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+        
+        .card-features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .card-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .card-features i {
+            color: var(--primary);
+            font-size: 20px;
+            margin-top: 5px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            a.nounderline {text-decoration: none; }
+        }
+        
+        .user-card .btn {
+            background: linear-gradient(to right, var(--accent), #42A5F5);
+            color: white;
+        }
+        
+        .advertiser-card .btn {
+            background: linear-gradient(to right, var(--secondary), #FFA726);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn i {
+            margin-left: 8px;
+        }
+        
+        .security-note {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            animation: fadeIn 1.2s ease;
+        }
+        
+        .security-note p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        .security-note p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .security-note i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                max-width: 550px;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .logo-text {
+                font-size: 28px;
+            }
+            
+            .card-header {
+                padding: 25px 20px;
+            }
+            
+            .card-body {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-store logo-icon"></i>
+                <div class="logo-text">Offer<span class="logo-highlight">Bazaar</span></div>
+            </div>
+            <h1>Create Your Account</h1>
+            <p>Join OfferBazaar today and unlock access to the best local deals and business opportunities in your area</p>
+        </header>
+        
+        <div class="cards-container">
+            <div class="card user-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2 class="card-title">User Account</h2>
+                    <p class="card-subtitle">Discover amazing local offers</p>
+                </div>
+                <div class="card-body">
+                    
+                    <button class="btn">
+                        <a href="user_Registration.html">Register as User</a> <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card advertiser-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h2 class="card-title">Advertiser Account</h2>
+                    <p class="card-subtitle">Promote your business locally</p>
+                </div>
+                <div class="card-body">
+                    
+                    <button class="btn">
+                        <a href="advertiser_Registration.html">Register as Advertiser</a> <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+       
+
+   
+</body>
+</html>

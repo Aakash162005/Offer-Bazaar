@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post New Offer - OfferBazaar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4CAF50; /* Trustworthy green */
+            --secondary: #FF9800; /* Action orange */
+            --accent: #2196F3; /* Information blue */
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --error: #f44336;
+            --success: #4CAF50;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--dark);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            transition: var(--transition);
+            z-index: 100;
+        }
+        
+        .logo {
+            padding: 25px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .logo-highlight {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            padding: 20px 0;
+        }
+        
+        .nav-links li {
+            list-style: none;
+            margin-bottom: 5px;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .nav-links a i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            transition: var(--transition);
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        
+        .header-left h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        .greeting {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .admin-info h3 {
+            font-size: 16px;
+        }
+        
+        .admin-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Dashboard Content */
+        .content {
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .form-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--dark);
+        }
+        
+        .form-title i {
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group .required {
+            color: var(--error);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+        }
+        
+        .form-control.error {
+            border-color: var(--error);
+        }
+        
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: none;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+        
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark) transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .date-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .date-row .form-group {
+            flex: 1;
+        }
+        
+        .city-info {
+            background: rgba(33, 150, 243, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .city-info i {
+            color: var(--accent);
+            font-size: 24px;
+        }
+        
+        .city-info p {
+            color: var(--dark);
+        }
+        
+        .city-info strong {
+            color: var(--accent);
+        }
+        
+        .submit-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Success Message */
+        .success-message {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            display: none;
+        }
+        
+        .success-message i {
+            color: var(--success);
+            font-size: 24px;
+        }
+        
+        .success-message p {
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 20px 30px;
+            background: white;
+            margin-top: 40px;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .logo-text, .nav-links a span {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .nav-links a i {
+                margin-right: 0;
+                font-size: 24px;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .admin-profile {
+                margin-top: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .form-section {
+                padding: 25px;
+            }
+            
+            .date-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .admin-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        .profile-logo {
+  width: 50px;          /* You can adjust the size */
+  height: 50px;
+  border-radius: 50%;    /* Makes the image circular */
+  object-fit: cover;     /* Ensures image doesn't stretch */
+  border: 2px solid #ccc; /* Optional: adds a subtle border */
+}
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-store logo-icon"></i>
+            <div class="logo-text">Offer<span class="logo-highlight">Bazaar</span></div>
+        </div>
+        
+         <ul class="nav-links">
+            <li>
+                <a href="advertiser_Home.jsp" >
+                    <i class="fas fa-chart-line"></i>Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="advertiserMyOffer.jsp">
+                    <i class="fas fa-tags"></i>My Offers
+                </a>
+            </li>
+            <li>
+                <a href="advertiserNewOffer.html" class="active" >
+                    <i class="fas fa-plus-circle"></i>Create Offer
+                    
+                </a>
+            </li>
+            <li>
+                <a href="advertiserDeleteOffer.html">
+                    <i class="fas fa-chart-pie" ></i>Delete Offer
+                   
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li>
+                 <a href="advertiserProfile.html"  >
+                    <i class="fas fa-store"></i> Advertiser Profile
+                </a>
+            </li>
+            <li>
+                <a href="advertiserEditOffer.html"  >
+                    <i class="fas fa-cog"></i>Edit Offer
+                </a>
+            </li>
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>Post a New Offer</h1>
+                <p class="greeting">Create compelling offers for your customers</p>
+            </div>
+            <div class="header-right">
+                <div class="admin-profile">
+                    <div class="admin-avatar"><img src="image/user.png" alt="Default Profile" class="profile-logo" ></div>
+                    <div class="admin-info">
+                        <h3>Gourmet Coffee</h3>
+                        <p>Premium Advertiser</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <div class="form-section animate">
+                <h2 class="form-title">
+                    <i class="fas fa-bullhorn"></i>
+                    Offer Details
+                </h2>
+                
+                <form id="offerForm" action="advertiserNewOffer" method="post">
+                    <!-- Title Field -->
+                    <div class="form-group">
+                        <label for="title">Offer Title <span class="required">*</span></label>
+                        <input type="text" name="oTitle" id="title" class="form-control" placeholder="Enter a catchy title for your offer">
+                        <div class="error-message" id="title-error">Please enter a title for your offer</div>
+                    </div>
+                    
+                    <!-- Description Field -->
+                    <div class="form-group">
+                        <label for="description">
+                            Description <span class="required">*</span>
+                            <span class="tooltip">
+                                <i class="fas fa-info-circle"></i>
+                                <span class="tooltip-text">Make your description clear and attractive. Include important details like what the offer includes, any restrictions, and why customers should take advantage of it.</span>
+                            </span>
+                        </label>
+                        <textarea id="description" name="oDescrip" class="form-control" rows="4" placeholder="Describe your offer in detail"></textarea>
+                        <div class="error-message" id="description-error">Please provide a description for your offer</div>
+                    </div>
+                    
+                    <!-- Discount Field -->
+                    <div class="form-group">
+                        <label for="discount">Discount (%) <span class="required">*</span></label>
+                        <div style="position: relative; display: flex;">
+                            <input type="text" name="oDiscount" id="discount" class="form-control" placeholder="Enter discount percentage" min="0" max="100" style="padding-left: 45px;">
+                            <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--gray);">%</span>
+                        </div>
+                        <div class="error-message" id="discount-error">Please enter a discount between 0-100%</div>
+                    </div>
+                    
+                    <!-- Date Fields -->
+                    <div class="date-row">
+                        <div class="form-group">
+                            <label for="startDate">Start Date <span class="required">*</span></label>
+                            <input type="date" name="oStartDate" id="startDate" class="form-control">
+                            <div class="error-message" id="startDate-error">Please select a start date</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End Date <span class="required">*</span></label>
+                            <input type="date" name="oEndDate" id="endDate" class="form-control">
+                            <div class="error-message" id="endDate-error">Please select an end date</div>
+                            <div class="error-message" id="dateComparison-error" style="color: var(--error);">End date must be after start date</div>
+                        </div>
+                    </div>
+                    
+                    <!-- City Field -->
+                    <div class="form-group">
+                        <label for="city">City <span class="required">*</span></label>
+                        <input type="text" id="city" name="oCity" class="form-control" placeholder="Enter City" >
+                        <label for="type">Type <span class="required">*</span></label>
+                        <input type="text" id="type" name="oType" class="form-control" placeholder="Enter which Type Ex. Food or Electronic's or Clothes" >
+                        <label for="link">Link of Product<span class="required">*</span></label>
+                        
+                        <input type="file" id="link" name="image" class="form-control" placeholder="Upload Image " accept="image/*">
+                       
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Submit Offer
+                    </button>
+                </form>
+                
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Your offer has been submitted successfully! It will be live after admin approval.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>OfferBazaar Advertiser Platform &copy; 2023 | Create compelling offers to attract more customers</p>
+        </div>
+    </div>
+
+    
+</body>
+</html>

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OfferBazaar - Local Vendor Offers Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #4CAF50; /* Trustworthy green */
+            --secondary: #FF9800; /* Action orange */
+            --accent: #2196F3; /* Information blue */
+            --light: #F8F9FA;
+            --dark: #333333;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+            border: none;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3d8b40;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e68a00;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--dark);
+        }
+        
+        .logo-highlight {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .hero-text {
+            flex: 1;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .hero h1 span {
+            color: var(--primary);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .hero-img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .security-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .badge-icon {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 30px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            position: relative;
+        }
+        
+        .step {
+            flex: 0 0 30%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+        
+        .step h3 {
+            margin-bottom: 15px;
+        }
+        
+        /* Role Selection Section */
+        .role-selection {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(33, 150, 243, 0.05) 100%);
+        }
+        
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .role-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .role-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        
+        
+        .role-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .role-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .user-icon {
+            color: var(--accent);
+        }
+        
+        .vendor-icon {
+            color: var(--secondary);
+        }
+        
+        .admin-icon {
+            color: var(--primary);
+        }
+        
+        .role-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .role-card p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(33, 150, 243, 0.05) 100%);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .cta .btn {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .cta .btn:hover {
+            background: var(--light-gray);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .footer-contact p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .steps {
+                flex-direction: column;
+                gap: 50px;
+            }
+            
+            .step {
+                flex: 0 0 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-store logo-icon"></i>
+                    <div class="logo-text">Offer<span class="logo-highlight">Bazaar</span></div>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Offers</a></li>
+                    <li><a href="#">Vendors</a></li>
+                    <li><a href="#">Cities</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                
+                <div class="nav-buttons">
+                    <a href="login_Option.html" class="btn btn-outline">Sign In</a>
+                    <a href="registration_Option.html" class="btn btn-primary">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Discover <span>Local Deals</span> Around You</h1>
+                    <p>Find the best offers from trusted local vendors in your city. Save money while supporting your community businesses.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary">Explore Offers</a>
+                        <a href="#" class="btn btn-outline">Become a Vendor</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="hero-image-container">
+                        <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Local vendor offers" class="hero-img">
+                        <div class="security-badge">
+                            <i class="fas fa-shield-alt badge-icon"></i>
+                            <div>
+                                <div>Secure Platform</div>
+                                <small>Verified Vendors Only</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Role Selection Section -->
+    <section class="role-selection">
+        <div class="container">
+            <div class="section-header">
+                <h2>Join OfferBazaar Today</h2>
+                <p>Choose your role to get started with our community platform</p>
+            </div>
+            
+            <div class="role-cards">
+                <div class="role-card">
+                    <div class="role-icon user-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>User</h3>
+                    <p>Discover amazing local deals and save money on products and services in your city.</p>
+                    <a href="user_Registration.html" class="btn btn-primary">Join as User</a>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-icon vendor-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Vendor</h3>
+                    <p>Reach more customers by posting your offers and promotions to a local audience.</p>
+                    <a href="advertiser_Registration.html" class="btn btn-secondary">Join as Vendor</a>
+                </div>
+                
+                <div class="role-card">
+                    <div class="role-icon admin-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Admin</h3>
+                    <p>Manage platform integrity and approve vendors to maintain a safe community.</p>
+                    <a href="admin_Login.html" class="btn btn-outline">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose OfferBazaar?</h2>
+                <p>We connect you with the best local offers while ensuring a safe and reliable experience</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Verified Vendors</h3>
+                    <p>All vendors are carefully verified by our admin team to ensure authenticity and trustworthiness.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Localized Offers</h3>
+                    <p>Discover deals in your neighborhood. Support local businesses and save money near you.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Secure Platform</h3>
+                    <p>Your safety is our priority. We implement strict security measures to protect all users.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How OfferBazaar Works</h2>
+                <p>Getting the best local deals is simple and straightforward</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Choose Your City</h3>
+                    <p>Select your location to see offers available in your area.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Browse Offers</h3>
+                    <p>Explore deals from verified local vendors in various categories.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Redeem & Save</h3>
+                    <p>Claim your offer and enjoy savings at your favorite local spots.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Users Say</h2>
+                <p>Don't just take our word for it - hear from our satisfied community</p>
+            </div>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "OfferBazaar has helped me discover amazing local businesses I never knew existed. The deals are fantastic and I feel safe knowing all vendors are verified."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Regular User, 2 years</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "As a small business owner, OfferBazaar has brought me so many new customers. The platform is easy to use and the admin team is very supportive."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <p>Verified Vendor</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "I love how easy it is to find discounts in my neighborhood. The security features make me feel comfortable using the platform regularly."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>David Rodriguez</h4>
+                            <p>Regular User, 6 months</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Discover Local Deals?</h2>
+            <p>Join thousands of users enjoying savings from trusted local vendors</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn">Get Started Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>About OfferBazaar</h3>
+                    <p style="color: #ccc; margin-top: 20px;">Connecting communities with local businesses through exclusive offers and deals.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Offers</a></li>
+                        <li><a href="#">Vendors</a></li>
+                        <li><a href="#">Cities</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>For Vendors</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Become a Vendor</a></li>
+                        <li><a href="#">Vendor Dashboard</a></li>
+                        <li><a href="#">Pricing Plans</a></li>
+                        <li><a href="#">Vendor Resources</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Market St, City Center</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> support@offerbazaar.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 OfferBazaar. All rights reserved. | Privacy Policy | Terms of Service</p>
+                <p style="margin-top: 10px;">Verified & Secured Platform</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation for hero section
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroText = document.querySelector('.hero-text');
+            heroText.style.opacity = '0';
+            heroText.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                heroText.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                heroText.style.opacity = '1';
+                heroText.style.transform = 'translateY(0)';
+            }, 300);
+            
+            // Add animation to feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 500 + (index * 200));
+            });
+            
+            // Animation for role cards
+            const roleCards = document.querySelectorAll('.role-card');
+            roleCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 700 + (index * 300));
+            });
+        });
+    </script>
+</body>
+</html>

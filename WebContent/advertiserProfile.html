@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Profile - OfferBazaar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4CAF50; /* Trustworthy green */
+            --secondary: #FF9800; /* Action orange */
+            --accent: #2196F3; /* Information blue */
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--dark);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            transition: var(--transition);
+            z-index: 100;
+        }
+        
+        .logo {
+            padding: 25px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .logo-highlight {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            padding: 20px 0;
+        }
+        
+        .nav-links li {
+            list-style: none;
+            margin-bottom: 5px;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .nav-links a i {
+            margin-right: 15px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            transition: var(--transition);
+            padding-bottom: 40px;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        
+        .header-left h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        .greeting {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .admin-info h3 {
+            font-size: 16px;
+        }
+        
+        .admin-info p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Profile Content */
+        .content {
+            padding: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .page-header h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-header h2 i {
+            color: var(--accent);
+        }
+        
+        /* Profile Sections */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        .profile-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+        
+        .profile-name {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .profile-role {
+            text-align: center;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .profile-stats {
+            list-style: none;
+            margin: 25px 0;
+        }
+        
+        .profile-stats li {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .profile-stats li:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+        }
+        
+        .stat-value {
+            font-weight: 600;
+        }
+        
+        .edit-avatar {
+            display: block;
+            text-align: center;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+        
+        /* Form Sections */
+        .profile-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-section {
+            margin-bottom: 35px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(33, 150, 243, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 18px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+        }
+        
+        .form-control:disabled {
+            background: var(--light);
+            cursor: not-allowed;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e6ea;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #3d8b40;
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .logo-text, .nav-links a span {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .nav-links a i {
+                margin-right: 0;
+                font-size: 24px;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .admin-profile {
+                margin-top: 10px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .admin-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-store logo-icon"></i>
+            <div class="logo-text">Offer<span class="logo-highlight">Bazaar</span></div>
+        </div>
+        
+         <ul class="nav-links">
+            <li>
+                <a href="advertiser_Home.html" >
+                    <i class="fas fa-chart-line"></i>Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="advertiserMyOffer.jsp">
+                    <i class="fas fa-tags"></i>My Offers
+                </a>
+            </li>
+            <li>
+                <a href="advertiserNewOffer.html"  >
+                    <i class="fas fa-plus-circle"></i>Create Offer
+                    
+                </a>
+            </li>
+            <li>
+                <a href="advertiserDeleteOffer.html">
+                    <i class="fas fa-chart-pie"  ></i>Delete Offer
+                   
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li>
+                <a href="advertiserProfile.html" class="active" >
+                    <i class="fas fa-store"></i> Advertiser Profile
+                </a>
+            </li>
+            <li>
+                <a href="advertiserEditOffer.html" >
+                    <i class="fas fa-cog"></i>Edit Offer
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>Business Profile</h1>
+                <p class="greeting">Manage your account information, <strong>Gourmet Coffee Shop</strong>!</p>
+            </div>
+            <div class="header-right">
+                <div class="admin-profile">
+                    <div class="admin-avatar">GC</div>
+                    <div class="admin-info">
+                        <h3>Gourmet Coffee</h3>
+                        <p>Premium Advertiser</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <div class="page-header">
+                <h2><i class="fas fa-user-circle"></i> Advertiser Profile</h2>
+            </div>
+            
+            <div class="profile-container">
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar animate">
+                    <div class="profile-avatar">GC</div>
+                    <h3 class="profile-name">Gourmet Coffee</h3>
+                    <div class="profile-role">Premium Advertiser</div>
+                    
+                    <ul class="profile-stats">
+                        <li>
+                            <span class="stat-label">Member Since</span>
+                            <span class="stat-value">2022</span>
+                        </li>
+                        <li>
+                            <span class="stat-label">Active Offers</span>
+                            <span class="stat-value">8</span>
+                        </li>
+                        <li>
+                            <span class="stat-label">Total Views</span>
+                            <span class="stat-value">24.5K</span>
+                        </li>
+                        <li>
+                            <span class="stat-label">Redemptions</span>
+                            <span class="stat-value">1,842</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#" class="edit-avatar">
+                        <i class="fas fa-camera"></i> Change Avatar
+                    </a>
+                </div>
+                
+                <!-- Profile Form -->
+                <div class="profile-form animate" style="animation-delay: 0.2s">
+                    <!-- Personal Information Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3 class="section-title">Personal Information</h3>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" class="form-control" value="John Coffee" placeholder="Enter your full name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" class="form-control" value="john@gourmetcoffee.com" disabled>
+                                <small style="color: var(--gray); display: block; margin-top: 5px;">Contact support to change your email</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Contact Number *</label>
+                                <input type="tel" id="phone" class="form-control" value="(212) 555-1234" placeholder="Enter contact number">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Business Information Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <h3 class="section-title">Business Information</h3>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="businessName">Business Name *</label>
+                                <input type="text" id="businessName" class="form-control" value="Gourmet Coffee Shop" placeholder="Enter business name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="businessType">Business Type</label>
+                                <select id="businessType" class="form-control">
+                                    <option>Café & Coffee Shop</option>
+                                    <option>Restaurant</option>
+                                    <option>Retail Store</option>
+                                    <option>Service Provider</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <select id="city" class="form-control">
+                                    <option>New York</option>
+                                    <option>Los Angeles</option>
+                                    <option>Chicago</option>
+                                    <option>Miami</option>
+                                    <option>Seattle</option>
+                                    <option>Austin</option>
+                                    <option>San Francisco</option>
+                                    <option>Boston</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address">Business Address</label>
+                                <input type="text" id="address" class="form-control" value="123 Coffee Street" placeholder="Enter business address">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="website">Website</label>
+                                <input type="url" id="website" class="form-control" value="https://gourmetcoffee.example" placeholder="Enter website URL">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-secondary">Cancel</button>
+                        <button class="btn btn-primary"><i class="fas fa-save"></i> Save Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation delays
+            const cards = document.querySelectorAll('.animate');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+            
+            // Form submission
+            const saveButton = document.querySelector('.btn-primary');
+            saveButton.addEventListener('click', function() {
+                const fullName = document.getElementById('fullName').value;
+                const businessName = document.getElementById('businessName').value;
+                
+                // Show success message
+                alert(`Profile updated successfully!\n\nName: ${fullName}\nBusiness: ${businessName}`);
+            });
+            
+            // Cancel button
+            const cancelButton = document.querySelector('.btn-secondary');
+            cancelButton.addEventListener('click', function() {
+                if(confirm('Are you sure you want to discard all changes?')) {
+                    // Reset form to original values
+                    document.getElementById('fullName').value = "John Coffee";
+                    document.getElementById('phone').value = "(212) 555-1234";
+                    document.getElementById('businessName').value = "Gourmet Coffee Shop";
+                    document.getElementById('address').value = "123 Coffee Street";
+                    document.getElementById('website').value = "https://gourmetcoffee.example";
+                    
+                    alert('Changes discarded');
+                }
+            });
+            
+            // Avatar change
+            const avatarChange = document.querySelector('.edit-avatar');
+            avatarChange.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Avatar change functionality would open in a real application');
+            });
+        });
+    </script>
+</body>
+</html>

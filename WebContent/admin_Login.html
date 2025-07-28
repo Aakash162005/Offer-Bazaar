@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OfferBazaar - Admin Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #2C3E50; /* Professional dark blue */
+            --secondary: #3498DB; /* Trust blue */
+            --accent: #27AE60; /* Security green */
+            --light: #F8F9FA;
+            --dark: #1A252F;
+            --gray: #7F8C8D;
+            --light-gray: #ECF0F1;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.05) 0%, rgba(52, 152, 219, 0.05) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        /* Admin Login Container */
+        .admin-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .admin-header {
+            background: var(--primary);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .admin-header i {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .admin-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .admin-header p {
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+        
+        .admin-form {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-group label i {
+            color: var(--secondary);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: var(--gray);
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .error-message {
+            color: #E74C3C;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+            border: none;
+            text-decoration: none;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1A252F;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .security-features {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(39, 174, 96, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .security-features h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        .security-features ul {
+            padding-left: 25px;
+        }
+        
+        .security-features li {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .copyright a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        /* Two-factor authentication */
+        .two-factor {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .two-factor h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .code-inputs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .code-inputs input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+        }
+        
+        .code-inputs input:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        /* Security Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .security-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Success Message */
+        .success-message {
+            display: none;
+            background-color: rgba(39, 174, 96, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            color: var(--accent);
+            text-align: center;
+        }
+        
+        /* Access Log */
+        .access-log {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .access-log h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .log-status {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .status-success {
+            background: rgba(39, 174, 96, 0.15);
+            color: var(--accent);
+        }
+        
+        .status-failed {
+            background: rgba(231, 76, 60, 0.15);
+            color: #E74C3C;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 500px) {
+            .admin-container {
+                max-width: 100%;
+            }
+            
+            .admin-form {
+                padding: 30px 20px;
+            }
+            
+            .code-inputs input {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Login Container -->
+    <div class="admin-container">
+        <div class="admin-header">
+            <i class="fas fa-shield-alt security-pulse"></i>
+            <h1>Admin Portal</h1>
+            <p>Secure access to OfferBazaar administration</p>
+        </div>
+        
+       <div class="admin-form">
+    <form id="adminLoginForm" action="admin_Login" method="post">
+        <div class="form-group animate">
+            <label for="adminEmail"><i class="fas fa-envelope"></i> Admin Email</label>
+            <i class="input-icon fas fa-user-secret"></i>
+            <input type="email" name="adminEmail" id="adminEmail" placeholder="admin@offerbazaar.com" required>
+            <div class="error-message" id="emailError">Invalid admin email</div>
+        </div>
+
+        <div class="form-group animate">
+            <label for="adminPass"><i class="fas fa-lock"></i> Password</label>
+            <i class="input-icon fas fa-key"></i>
+            <input type="password" name="adminPass" id="adminPass" placeholder="Enter your password" required>
+            <span class="toggle-password" id="togglePassword">
+                <i class="fas fa-eye"></i>
+            </span>
+            <div class="error-message" id="passwordError">Incorrect password</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary animate">Secure Login</button>
+
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> Authentication successful! Access granted.
+        </div>
+    </form>
+</div>
+
+                
+               
+                
+               
+                
+    
+    <div class="copyright animate">
+        &copy; 2023 OfferBazaar. Strictly confidential. <a href="#">Report security issue</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password toggle functionality
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = togglePassword.querySelector('i');
+            
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle eye icon
+                passwordIcon.classList.toggle('fa-eye');
+                passwordIcon.classList.toggle('fa-eye-slash');
+            });
+            
+          
+                }
+                
+                // Show two-factor authentication
+                twoFactor.style.display = 'block';
+                
+                // Set up two-factor input
+                const inputs = twoFactor.querySelectorAll('input');
+                inputs.forEach((input, index) => {
+                    input.addEventListener('input', function() {
+                        if (this.value.length === 1 && index < inputs.length - 1) {
+                            inputs[index + 1].focus();
+                        }
+                    });
+                    
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === "Backspace" && this.value.length === 0 && index > 0) {
+                            inputs[index - 1].focus();
+                        }
+                    });
+                });
+                
+                // Verify code button
+                const verifyBtn = twoFactor.querySelector('.btn');
+                verifyBtn.addEventListener('click', function() {
+                    let code = '';
+                    inputs.forEach(input => {
+                        code += input.value;
+                    });
+                    
+                    // Simulate valid code (123456)
+                    if (code === '123456') {
+                        successMessage.style.display = 'block';
+                        
+                        // Redirect to dashboard after 2 seconds
+                        setTimeout(() => {
+                            alert('Authentication successful! Redirecting to admin dashboard.');
+                            window.location.href = '#';
+                        }, 2000);
+                    } else {
+                        passwordError.textContent = 'Invalid verification code';
+                        passwordError.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Auto-focus first input
+            document.getElementById('email').focus();
+        });
+    </script>
+</body>
+</html>

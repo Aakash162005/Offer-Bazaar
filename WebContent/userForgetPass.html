@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Your Password | Account Security</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(rgba(106, 17, 203, 0.8), rgba(37, 117, 252, 0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232575fc" opacity="0.2"/><path d="M20,20 Q40,5 60,20 T100,20 M20,50 Q40,35 60,50 T100,50 M20,80 Q40,65 60,80 T100,80" stroke="white" stroke-width="2" fill="none"/></svg>');
+            background-size: cover;
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .right-panel {
+            flex: 1.2;
+            padding: 50px 40px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #6a11cb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: #777;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            border-color: #6a11cb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .password-strength {
+            height: 5px;
+            background: #eee;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s;
+        }
+        
+        .strength-text {
+            font-size: 13px;
+            margin-top: 5px;
+            color: #777;
+        }
+        
+        .requirements {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .requirement i {
+            margin-right: 8px;
+            font-size: 12px;
+        }
+        
+        .requirement.valid {
+            color: #28a745;
+        }
+        
+        .requirement.valid i {
+            color: #28a745;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #5a0db5, #1c68e8);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+        
+        .footer-links a {
+            color: #2575fc;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .panel-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .panel-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .features {
+            list-style: none;
+        }
+        
+        .features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .features li i {
+            font-size: 20px;
+            margin-right: 12px;
+            margin-top: 3px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .left-panel {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h2 class="panel-title">Reset Your Password</h2>
+            <p class="panel-text">Enter your email and a new password to regain access to your account.</p>
+            <ul class="features">
+                <li><i class="fas fa-shield-alt"></i> <div>Enterprise-grade security to protect your account</div></li>
+                <li><i class="fas fa-sync-alt"></i> <div>Instant password reset with immediate effect</div></li>
+                <li><i class="fas fa-lock"></i> <div>Strong password requirements for better security</div></li>
+            </ul>
+        </div>
+        
+        <div class="right-panel">
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+                SecureAccount
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i> Your password has been successfully reset! You can now log in with your new password.
+            </div>
+            
+            <h1>Reset Password</h1>
+            <p class="subtitle">Please enter your email and a new password for your account.</p>
+            
+            <form id="resetForm" action="userForgetPass" method="post">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <input type="email" name="uEmail" id="email" placeholder="Enter your email address" required>
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <div class="input-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="password-container">
+                        <input type="password" name="uPass" id="newPassword" placeholder="Create a new password" required>
+                        <span class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="password-container">
+                        <input type="password"  id="confirmPassword" placeholder="Re-enter your new password" required>
+                        <span class="toggle-password" id="toggleConfirmPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <div class="error-message" id="confirmError">Passwords do not match</div>
+                </div>
+                
+                <button type="submit" class="btn">Reset Password</button>
+            </form>
+            
+            <div class="footer-links">
+                <a href="user_Login.html"><i class="fas fa-arrow-left"></i> Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
